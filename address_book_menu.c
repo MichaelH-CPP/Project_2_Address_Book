@@ -152,25 +152,35 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
-	if (address_book->count >=MAX_CONTACTS){
-		printf("Address book full. Cannot add more contacts. \n");
-		return e_fail;
-	}
-	ContactInfo *new_contact = &address_book->list[address_book->count];
+    /* Check if address book is full */
+    if (address_book->count >= MAX_CONTACTS) {
+        printf("Address book full. Cannot add more contacts.\n");
+        return e_fail;
+    }
 
-	printf("Enter Name: ");
-	fgets(new_contact->, sizeof(new_contact->name),stdin);
-	new_contact->name[strcspn(new_contact->name, "\n")]=0;
+    ContactInfo *new_contact = &address_book->list[address_book->count];
 
-	prinf("Enter Phone Number: ");
-	fgets(new_contact->phone, sizeof(new_contact->phone),stdin);
-	new_contract->phone[strcspn(new_contact->phone, "\n")]=0;
+    /* Input name */
+    printf("Enter Name: ");
+    fgets(new_contact->name, sizeof(new_contact->name), stdin);
+    new_contact->name[strcspn(new_contact->name, "\n")] = 0;
 
-	address_book->count++;
-	printf("Contact added.\n");
-	retunr e_success;
+    /* Input phone number */
+    printf("Enter Phone Number: ");
+    fgets(new_contact->phone, sizeof(new_contact->phone), stdin);
+    new_contact->phone[strcspn(new_contact->phone, "\n")] = 0;
+
+    /* Input email address */
+    printf("Enter Email Address: ");
+    fgets(new_contact->email, sizeof(new_contact->email), stdin);
+    new_contact->email[strcspn(new_contact->email, "\n")] = 0;
+
+    address_book->count++;
+
+    printf("Contact added successfully.\n");
+    return e_success;
 }
+
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
