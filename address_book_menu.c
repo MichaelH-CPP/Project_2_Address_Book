@@ -65,12 +65,57 @@ Status save_prompt(AddressBook *address_book)
 }
 
 Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
-{
-	/* 
-	 * Add code to list all the contacts availabe in address_book.csv file
-	 * Should be menu based
-	 * The menu provide navigation option if the entries increase the page size
-	 */ 
+{ 
+	int i;
+	char option;
+	int j = 0;	//Counter for number of contacts printed
+	for (i = 0; i < address_book->count; i++){
+		j++;		//Increment contact counter
+		 printf("%d. Name: %s\nPhone: %s\nEmail: %s\n", i+1, 
+			address_book->list[i].name, 
+			address_book->list[i].phone_numbers, 
+			address_book->list[i].email_addresses);		//Prints the contact information up to 5 times
+		if (j >= 5 && address_book->count > i + 1){		//After printing 5 contacts, if there are more contacts, prompt user
+			printf("Next Page[n]\n")
+			printf("Previous Page[p]\n")
+			printf("Quit[q]]\n")
+			printf("Choose an option: \n");
+			option = get_option(CHAR, "");				//Read user input
+			if (option == 'q'){							//If q, break out of if and for loop
+				break;
+			}
+			else if (option == 'n'){				//If n, reset contact counter and continue to next 5 contacts
+				j = 0;
+				if (i + 5 >= address_book->count){		//Check if there are more than 5 contacts left, if not, print error message
+					printf("No next page, try again\n");
+					i = i - 5;
+				}
+			}
+			else if (option == 'p'){	
+				j = 0;
+				i = i - 10;					//Go back 10 to print previous 5 contancts
+				if (i < 5){					//Check if there is a previous page, if not, print error message
+					printf("No previous page, try again\n");
+					i = 0;
+				}
+			}
+			else {
+				printf("Invalid option, try again\n");		//If invalid option, print error message
+				i = i - 5;
+			}
+		}
+		else if (j <= 5 && address_book->count == i + 1){		//If there are less than 5 contacts left, give option to quit
+			printf("Press [q] to quit: ")
+			option = get_option(CHAR, "");
+			if (option == 'q'){
+				break;
+			}
+			else {
+				printf("Invalid option, try again\n");
+				i = i - 5;
+			}
+		}
+	 }
 
 	return e_success;
 }
@@ -137,8 +182,8 @@ Status menu(AddressBook *address_book)
 				delete_contact(address_book);
 				break;
 			case e_list_contacts:
+				list_contacts(address_book, "", NULL, "", e_list);
 				break;
-				/* Add your implementation to call list_contacts function here */
 			case e_save:
 				save_file(address_book);
 				break;
