@@ -273,6 +273,7 @@ Status search(const char *str, AddressBook *address_book, int loop_count, int fi
     return e_success;
 }
 
+
 Status search_contact(AddressBook *address_book)
 {
     char search_str[NAME_LEN];
