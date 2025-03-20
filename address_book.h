@@ -15,6 +15,7 @@
 
 #define PHONE_NUMBER_COUNT 5
 #define EMAIL_ID_COUNT 5
+#define MAX_CONTACTS 100 // Define a reasonable maximum number of contacts
 
 typedef int bool_t;
 
