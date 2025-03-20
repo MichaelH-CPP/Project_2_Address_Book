@@ -244,5 +244,68 @@ Status edit_contact(AddressBook *address_book)
 
 Status delete_contact(AddressBook *address_book)
 {
-	/* Add the functionality for delete contacts here */
+	if (address_book->count == 0)
+    {
+        printf("\nNo contacts available to delete.\n");
+        return e_no_match;
+    }
+
+    char search_term[NAME_LEN];
+    printf("\nEnter name, phone number, or email to delete: ");
+    scanf("%s", search_term);
+
+    int found_index = -1;
+    for (int i = 0; i < address_book->count; i++)
+    {
+        if (strcmp(address_book->list[i].name[0], search_term) == 0)
+        {
+            found_index = i;
+            break;
+        }
+
+        for (int j = 0; j < PHONE_NUMBER_COUNT; j++)
+        {
+            if (strcmp(address_book->list[i].phone_numbers[j], search_term) == 0)
+            {
+                found_index = i;
+                break;
+            }
+        }
+
+        for (int k = 0; k < EMAIL_ID_COUNT; k++)
+        {
+            if (strcmp(address_book->list[i].email_addresses[k], search_term) == 0)
+            {
+                found_index = i;
+                break;
+            }
+        }
+    }
+
+    if (found_index == -1)
+    {
+        printf("\nNo matching contact found.\n");
+        return e_no_match;
+    }
+
+    // Confirm deletion
+    char confirm;
+    printf("\nAre you sure you want to delete this contact? (Y/N): ");
+    scanf(" %c", &confirm);
+    if (confirm != 'Y' && confirm != 'y')
+    {
+        printf("\nDeletion canceled.\n");
+        return e_success;
+    }
+
+    // Shift contacts to remove the deleted contact
+    for (int i = found_index; i < address_book->count - 1; i++)
+    {
+        address_book->list[i] = address_book->list[i + 1];
+    }
+
+    address_book->count--;
+
+    printf("\nContact deleted successfully.\n");
+    return e_success;
 }
