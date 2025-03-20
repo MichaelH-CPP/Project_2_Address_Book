@@ -1,22 +1,21 @@
 #ifndef ADDRESS_BOOK_H
 #define ADDRESS_BOOK_H
 
-#define DEFAULT_FILE				"address_book.csv"
+#define DEFAULT_FILE "address_book.csv"
 
 /* Length of a contact name  */
-#define NAME_LEN					32
+#define NAME_LEN 32
 /* Length of a phone number */
-#define NUMBER_LEN					32
+#define NUMBER_LEN 32
 /* Length of an email address */
-#define EMAIL_ID_LEN				32
+#define EMAIL_ID_LEN 32
 
-
-#define FIELD_DELIMITER				','
-#define NEXT_ENTRY					'\n'
+#define FIELD_DELIMITER ','
+#define NEXT_ENTRY '\n'
 
 typedef int bool_t;
 
-typedef enum 
+typedef enum
 {
 	e_add,
 	e_search,
@@ -25,7 +24,7 @@ typedef enum
 	e_list,
 } Modes;
 
-typedef enum 
+typedef enum
 {
 	e_first_opt,
 	e_second_opt,
@@ -33,7 +32,7 @@ typedef enum
 	e_fourth_opt,
 	e_fifth_opt,
 	e_sixth_opt,
-	e_no_opt = '\n' -'0',
+	e_no_opt = '\n' - '0',
 } MenuOptions;
 
 typedef enum
@@ -45,7 +44,7 @@ typedef enum
 	e_new_line,
 } Status;
 
-typedef enum 
+typedef enum
 {
 	e_exit,
 	e_add_contact,
@@ -68,7 +67,7 @@ typedef struct
 {
 	FILE *fp;
 	ContactInfo *list;
-	int count;	
+	int count;
 } AddressBook;
 
 #endif
