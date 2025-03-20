@@ -16,27 +16,29 @@ int get_option(int type, const char *msg)
 	 * Just an enter key detection
 	 * Read an number
 	 * Read a charcter
-	 */ 
+	 */
 
 	/* Fill the code to add above functionality */
 	char input[10];
 	int option;
 
-	if (msg && *msg){
-		printf("%s",msg);
+	if (msg && *msg)
+	{
+		printf("%s", msg);
 	}
-	switch (type){
-		case NONE:
-			getchar();
-			return 0;
-		case NUM:
-			fgets(input, sizeof(input), stdin);
-			return atoi(input);
-		case CHAR:
-			fgets(input, sizeof(input), stdin);
-			return toupper(input[0]);
-		default:
-			return -1;
+	switch (type)
+	{
+	case NONE:
+		getchar();
+		return 0;
+	case NUM:
+		fgets(input, sizeof(input), stdin);
+		return atoi(input);
+	case CHAR:
+		fgets(input, sizeof(input), stdin);
+		return toupper(input[0]);
+	default:
+		return -1;
 	}
 }
 
@@ -65,57 +67,68 @@ Status save_prompt(AddressBook *address_book)
 }
 
 Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
-{ 
+{
 	int i;
 	char option;
-	int j = 0;	//Counter for number of contacts printed
-	for (i = 0; i < address_book->count; i++){
-		j++;		//Increment contact counter
-		 printf("%d. Name: %s\nPhone: %s\nEmail: %s\n", i+1, 
-			address_book->list[i].name, 
-			address_book->list[i].phone_numbers, 
-			address_book->list[i].email_addresses);		//Prints the contact information up to 5 times
-		if (j >= 5 && address_book->count > i + 1){		//After printing 5 contacts, if there are more contacts, prompt user
+	int j = 0; // Counter for number of contacts printed
+	for (i = 0; i < address_book->count; i++)
+	{
+		j++; // Increment contact counter
+		printf("%d. Name: %s\nPhone: %s\nEmail: %s\n", i + 1,
+			   address_book->list[i].name,
+			   address_book->list[i].phone_numbers,
+			   address_book->list[i].email_addresses); // Prints the contact information up to 5 times
+		if (j >= 5 && address_book->count > i + 1)
+		{ // After printing 5 contacts, if there are more contacts, prompt user
 			printf("Next Page[n]\n")
-			printf("Previous Page[p]\n")
-			printf("Quit[q]]\n")
-			printf("Choose an option: \n");
-			option = get_option(CHAR, "");				//Read user input
-			if (option == 'q'){							//If q, break out of if and for loop
+				printf("Previous Page[p]\n")
+					printf("Quit[q]]\n")
+						printf("Choose an option: \n");
+			option = get_option(CHAR, ""); // Read user input
+			if (option == 'q')
+			{ // If q, break out of if and for loop
 				break;
 			}
-			else if (option == 'n'){				//If n, reset contact counter and continue to next 5 contacts
+			else if (option == 'n')
+			{ // If n, reset contact counter and continue to next 5 contacts
 				j = 0;
-				if (i + 5 >= address_book->count){		//Check if there are more than 5 contacts left, if not, print error message
+				if (i + 5 >= address_book->count)
+				{ // Check if there are more than 5 contacts left, if not, print error message
 					printf("No next page, try again\n");
 					i = i - 5;
 				}
 			}
-			else if (option == 'p'){	
+			else if (option == 'p')
+			{
 				j = 0;
-				i = i - 10;					//Go back 10 to print previous 5 contancts
-				if (i < 5){					//Check if there is a previous page, if not, print error message
+				i = i - 10; // Go back 10 to print previous 5 contancts
+				if (i < 5)
+				{ // Check if there is a previous page, if not, print error message
 					printf("No previous page, try again\n");
 					i = 0;
 				}
 			}
-			else {
-				printf("Invalid option, try again\n");		//If invalid option, print error message
+			else
+			{
+				printf("Invalid option, try again\n"); // If invalid option, print error message
 				i = i - 5;
 			}
 		}
-		else if (j <= 5 && address_book->count == i + 1){		//If there are less than 5 contacts left, give option to quit
+		else if (j <= 5 && address_book->count == i + 1)
+		{ // If there are less than 5 contacts left, give option to quit
 			printf("Press [q] to quit: ")
-			option = get_option(CHAR, "");
-			if (option == 'q'){
+				option = get_option(CHAR, "");
+			if (option == 'q')
+			{
 				break;
 			}
-			else {
+			else
+			{
 				printf("Invalid option, try again\n");
 				i = i - 5;
 			}
 		}
-	 }
+	}
 
 	return e_success;
 }
@@ -160,7 +173,7 @@ Status menu(AddressBook *address_book)
 
 		option = get_option(NUM, "");
 
-		if ((address_book-> count == 0) && (option != e_add_contact))
+		if ((address_book->count == 0) && (option != e_add_contact))
 		{
 			get_option(NONE, "No entries found!!. Would you like to add? Use Add Contacts");
 
@@ -169,26 +182,26 @@ Status menu(AddressBook *address_book)
 
 		switch (option)
 		{
-			case e_add_contact:
-				/* Add your implementation to call add_contacts function here */
-				break;
-			case e_search_contact:
-				search_contact(address_book);
-				break;
-			case e_edit_contact:
-				edit_contact(address_book);
-				break;
-			case e_delete_contact:
-				delete_contact(address_book);
-				break;
-			case e_list_contacts:
-				list_contacts(address_book, "", NULL, "", e_list);
-				break;
-			case e_save:
-				save_file(address_book);
-				break;
-			case e_exit:
-				break;
+		case e_add_contact:
+			/* Add your implementation to call add_contacts function here */
+			break;
+		case e_search_contact:
+			search_contact(address_book);
+			break;
+		case e_edit_contact:
+			edit_contact(address_book);
+			break;
+		case e_delete_contact:
+			delete_contact(address_book);
+			break;
+		case e_list_contacts:
+			list_contacts(address_book, "", NULL, "", e_list);
+			break;
+		case e_save:
+			save_file(address_book);
+			break;
+		case e_exit:
+			break;
 		}
 	} while (option != e_exit);
 
@@ -197,35 +210,35 @@ Status menu(AddressBook *address_book)
 
 Status add_contacts(AddressBook *address_book)
 {
-    /* Check if address book is full */
-    if (address_book->count >= MAX_CONTACTS) {
-        printf("Address book full. Cannot add more contacts.\n");
-        return e_fail;
-    }
+	/* Check if address book is full */
+	if (address_book->count >= MAX_CONTACTS)
+	{
+		printf("Address book full. Cannot add more contacts.\n");
+		return e_fail;
+	}
 
-    ContactInfo *new_contact = &address_book->list[address_book->count];
+	ContactInfo *new_contact = &address_book->list[address_book->count];
 
-    /* Input name */
-    printf("Enter Name: ");
-    fgets(new_contact->name, sizeof(new_contact->name), stdin);
-    new_contact->name[strcspn(new_contact->name, "\n")] = 0;
+	/* Input name */
+	printf("Enter Name: ");
+	fgets(new_contact->name, sizeof(new_contact->name), stdin);
+	new_contact->name[strcspn(new_contact->name, "\n")] = 0;
 
-    /* Input phone number */
-    printf("Enter Phone Number: ");
-    fgets(new_contact->phone, sizeof(new_contact->phone), stdin);
-    new_contact->phone[strcspn(new_contact->phone, "\n")] = 0;
+	/* Input phone number */
+	printf("Enter Phone Number: ");
+	fgets(new_contact->phone, sizeof(new_contact->phone), stdin);
+	new_contact->phone[strcspn(new_contact->phone, "\n")] = 0;
 
-    /* Input email address */
-    printf("Enter Email Address: ");
-    fgets(new_contact->email, sizeof(new_contact->email), stdin);
-    new_contact->email[strcspn(new_contact->email, "\n")] = 0;
+	/* Input email address */
+	printf("Enter Email Address: ");
+	fgets(new_contact->email, sizeof(new_contact->email), stdin);
+	new_contact->email[strcspn(new_contact->email, "\n")] = 0;
 
-    address_book->count++;
+	address_book->count++;
 
-    printf("Contact added successfully.\n");
-    return e_success;
+	printf("Contact added successfully.\n");
+	return e_success;
 }
-
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
@@ -239,7 +252,67 @@ Status search_contact(AddressBook *address_book)
 
 Status edit_contact(AddressBook *address_book)
 {
-	/* Add the functionality for edit contacts here */
+	print("Enter the name of the contact you would like to edit: ");
+	char name[50];
+	fgets(name, sizeof(name), stdin);
+
+	ContactInfo *currUser = NULL;
+	for (int i = 0; i < address_book->count; i++)
+	{
+		if (strcmp(address_book->list[i].name, name) == 0)
+		{
+			currUser = &address_book->list[i];
+			break;
+		}
+	}
+	if (currUser == NULL)
+	{
+		printf("Contact not found.\n");
+		return e_fail;
+	}
+
+	else
+	{
+		int option = 0;
+		do
+		{
+			printf("What would you like to edit?\n");
+			printf("1. Name\n");
+			printf("2. Phone Number\n");
+			printf("3. Email Address\n");
+			printf("4. Exit\n");
+			int option;
+			fgets(option, sizeof(option), stdin);
+			switch (option)
+			{
+			case 1:
+				printf("Enter new name: ");
+				char name[50];
+				fgets(name, sizeof(name), stdin);
+				currUser->name = name;
+				break;
+			case 2:
+				printf("Enter new phone number: ");
+				int newNum;
+				fgets(newNum, sizeof(newNum), stdin);
+				currUser->phone = newNum;
+				break;
+			case 3:
+				printf("Enter new email address: ");
+				char newEmail[50];
+				fgets(newEmail, sizeof(newEmail), stdin);
+				currUser->email = newEmail;
+				break;
+			case 4:
+				break;
+			default:
+				printf("Invalid option, try again\n");
+				break;
+			}
+		} while (option != 4);
+		printf("Contact edited successfully.\n");
+		return e_success;
+	}
 }
 
 Status delete_contact(AddressBook *address_book)
