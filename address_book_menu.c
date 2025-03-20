@@ -229,13 +229,72 @@ Status add_contacts(AddressBook *address_book)
 
 Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
 {
-	/* Add the functionality for adding contacts here */
+    int found = 0;
+
+    if (field < 1 || field > 3) { // Validate field input
+        printf("Invalid search field.\n");
+        return e_fail;
+    }
+
+    for (int i = 0; i < address_book->count; i++)
+    {
+        int match = 0;
+
+        // Search based on the selected field (case-insensitive partial match)
+        if (field == 1 && strcasestr(address_book->list[i].name, str) != NULL)
+            match = 1;
+        else if (field == 2 && strcasestr(address_book->list[i].phone_numbers, str) != NULL)
+            match = 1;
+        else if (field == 3 && strcasestr(address_book->list[i].email_addresses, str) != NULL)
+            match = 1;
+
+        if (match)
+        {
+            printf("\nFound Contact:\n");
+            printf("ID: %d\n", address_book->list[i].si_no);
+            printf("Name: %s\n", address_book->list[i].name);
+            printf("Phone: %s\n", address_book->list[i].phone_numbers);
+            printf("Email: %s\n", address_book->list[i].email_addresses);
+            printf("---------------------------------------------\n");
+
+            found = 1;
+            if (mode == e_edit || mode == e_delete) {
+                return i; // Return index for edit/delete
+            }
+        }
+    }
+
+    if (!found)
+    {
+        printf("Contact not found.\n");
+        return e_no_match;
+    }
+
+    return e_success;
 }
+
 
 Status search_contact(AddressBook *address_book)
 {
-	/* Add the functionality for search contacts here */
+    char search_str[NAME_LEN];
+    int search_field;
+
+    printf("\nSearch by:\n");
+    printf("1. Name\n");
+    printf("2. Phone Number\n");
+    printf("3. Email Address\n");
+    printf("Enter option: ");
+    
+    scanf("%d", &search_field);
+    getchar(); // Clear buffer
+
+    printf("Enter search term: ");
+    fgets(search_str, sizeof(search_str), stdin);
+    search_str[strcspn(search_str, "\n")] = 0; // Remove newline
+
+    return search(search_str, address_book, address_book->count, search_field, "", e_search_contact);
 }
+
 
 Status edit_contact(AddressBook *address_book)
 {
