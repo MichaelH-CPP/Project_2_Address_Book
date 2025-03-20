@@ -13,6 +13,9 @@
 #define FIELD_DELIMITER ','
 #define NEXT_ENTRY '\n'
 
+#define PHONE_NUMBER_COUNT 5
+#define EMAIL_ID_COUNT 5
+
 typedef int bool_t;
 
 typedef enum
