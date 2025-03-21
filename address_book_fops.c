@@ -8,10 +8,9 @@
 
 #include "address_book.h"
 
-
 Status load_file(AddressBook *address_book)
 {
-	struct stat file_stat;
+    struct stat file_stat;
     int ret = stat(DEFAULT_FILE, &file_stat); // Check if file exists
 
     if (ret == 0) // File exists
@@ -26,11 +25,11 @@ Status load_file(AddressBook *address_book)
         /* Read contacts from file */
         address_book->count = 0;
         while (fscanf(address_book->fp, "%d,%49[^,],%14[^,],%49[^\n]",
-            &address_book->list[address_book->count].si_no,
-            address_book->list[address_book->count].name,
-            address_book->list[address_book->count].phone_numbers,
-            address_book->list[address_book->count].email_addresses) == 4)
-{
+                      &address_book->list[address_book->count].si_no,
+                      address_book->list[address_book->count].name,
+                      address_book->list[address_book->count].phone_numbers,
+                      address_book->list[address_book->count].email_addresses) == 4)
+        {
             address_book->count++;
             if (address_book->count >= MAX_CONTACTS) // Avoid overflow
             {
@@ -56,8 +55,8 @@ Status load_file(AddressBook *address_book)
 
 Status save_file(AddressBook *address_book)
 {
-	if (!address_book || address_book->count == 0)
-    ;{
+    if (!address_book || address_book->count == 0)
+    {
         printf("No contacts to save.\n");
         return e_fail;
     }

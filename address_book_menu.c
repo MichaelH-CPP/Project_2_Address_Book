@@ -311,7 +311,7 @@ Status search_contact(AddressBook *address_book)
 
 Status edit_contact(AddressBook *address_book)
 {
-	print("Enter the name of the contact you would like to edit: ");
+	printf("Enter the name of the contact you would like to edit: ");
 	char name[50];
 	fgets(name, sizeof(name), stdin);
 
@@ -345,28 +345,28 @@ Status edit_contact(AddressBook *address_book)
 			{
 			case 1:
 				printf("Enter new name: ");
-				char oldName[50] = currUser->name;
-				char newName[50];
+				char *oldName[50] = currUser->name;
+				char *newName[50];
 				fgets(newName, sizeof(newName), stdin);
 				strcpy(currUser->name, newName);
-				print("Succesfully changed %s to %s\n", oldName, newName);
+				printf("Succesfully changed %s to %s\n", oldName, newName);
 
 				break;
 			case 2:
 				printf("Enter new phone number: ");
-				int oldNum = currUser->phone_numbers;
-				int newNum;
+				char *oldNum[50] = currUser->phone_numbers;
+				char *newNum[50];
 				fgets(newNum, sizeof(newNum), stdin);
 				strcpy(currUser->phone_numbers, newNum);
-				print("Succesfully changed %d to %d\n", oldNum, newNum);
+				printf("Succesfully changed %d to %d\n", oldNum, newNum);
 				break;
 			case 3:
 				printf("Enter new email address: ");
-				char oldEmail[50] = currUser->email_addresses;
-				char newEmail[50];
+				char *oldEmail[50] = currUser->email_addresses;
+				char *newEmail[50];
 				fgets(newEmail, sizeof(newEmail), stdin);
 				strcpy(currUser->email_addresses, newEmail);
-				print("Succesfully changed %s to %s\n", oldEmail, newEmail);
+				printf("Succesfully changed %s to %s\n", oldEmail, newEmail);
 				break;
 			case 4:
 				break;
