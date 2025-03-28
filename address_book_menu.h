@@ -11,6 +11,7 @@
 
 void menu_header(const char *str);
 void main_menu(void);
+Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode);
 Status menu(AddressBook *address_book);
 Status save_prompt(AddressBook *address_book);
 Status add_contacts(AddressBook *address_book);
